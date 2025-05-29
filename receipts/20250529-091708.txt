@@ -1,0 +1,13 @@
+====== DELI-cious Receipt ======
+
+Sandwich 1:
+MEDIUM_8 sandwich on WHITE bread (Toasted)
+  Toppings:
+    - Extra HAN
+
+
+Chip 1: Chip - BBQ
+
+Total: $11.50
+
+🙏 Thank you for dining with us!
