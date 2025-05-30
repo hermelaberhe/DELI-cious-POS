@@ -1,7 +1,7 @@
 # 🥪 DELI-cious POS
 
 A Java-based Point-of-Sale system for sandwich shops — designed for quick ordering, flexible customization, receipt generation, and CSV exporting.
-
+![img.png](img.png)
 ---
 
 ## 🚀 Features
