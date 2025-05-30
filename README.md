@@ -59,12 +59,6 @@ All ordered items (sandwiches, drinks, chips) are stored in the associated Order
 This allows full order reconstruction, analytics, and admin reporting.
 
 
-✅ CSV & Text Receipt Output
-Each completed order generates:
-A printable text receipt saved in the receipts/ folder.
-A recorded entry in the database for future reference.
-Admins can export all orders to CSV with a single click, enabling simple financial reporting and analysis.
-
 
 ✅ Tools & Libraries
 SQLite (Embedded DB)
