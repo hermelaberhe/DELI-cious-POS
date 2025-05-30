@@ -2,13 +2,12 @@ package src.services;
 
 import src.models.*;
 import src.models.enums.*;
-import src.dao.TransactionDAO;
 import services.PriceCalculator;
+import src.util.OrderStorage;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.*;
-
 
 public class OrderManager {
     private final Scanner scanner = new Scanner(System.in);
@@ -139,10 +138,9 @@ public class OrderManager {
             }
         }
 
-        // Optional customization
         System.out.print("\nWould you like to add/remove toppings? (y/n): ");
         if (scanner.nextLine().trim().toLowerCase().startsWith("y")) {
-            return createSandwich(); // Let them use custom flow
+            return createSandwich();
         }
 
         return sandwich;
@@ -190,7 +188,12 @@ public class OrderManager {
         };
 
         System.out.println("✅ Payment received via " + method);
-        new TransactionDAO().saveOrder(order, method);
+        order.setPaymentMethod(method);
+        order.setTotalPrice(total);
+        order.setTimestamp(java.time.LocalDateTime.now().toString());
+
+        OrderStorage.saveOrder(order);
+        System.out.println("🧾 Order saved successfully.");
     }
 
     private void adminLogin() {
@@ -201,22 +204,19 @@ public class OrderManager {
         }
 
         System.out.println("\n✅ Access granted. Welcome, Admin!");
-        List<OrderTransaction> transactions = new TransactionDAO().getAllTransactions();
+        List<Order> orders = OrderStorage.loadOrders();
 
-        if (transactions.isEmpty()) {
+        if (orders.isEmpty()) {
             System.out.println("📭 No transactions found.");
             return;
         }
 
         System.out.println("\n🧾 Transaction History:");
         double totalRevenue = 0;
-        for (OrderTransaction tx : transactions) {
-            System.out.printf("🆔 %d | 💵 $%.2f | 💳 %s | 📅 %s%n", tx.getId(), tx.getTotalAmount(), tx.getPaymentMethod(), tx.getTimestamp());
-            tx.getItemDescriptions().forEach(item -> System.out.println("   - " + item));
-            System.out.println("------");
-            totalRevenue += tx.getTotalAmount();
+        for (Order o : orders) {
+            System.out.println(o.toString());
+            totalRevenue += o.getTotalPrice();
         }
-
         System.out.printf("\n📈 Total Revenue: $%.2f\n", totalRevenue);
     }
 
