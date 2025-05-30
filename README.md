@@ -42,10 +42,24 @@ Flow chart-using PlantUML
 
 
 
----
+📦 Data Handling
 
-## 🧑‍💻 How to Run
+The DELI-cious POS system replaces the traditional paper-based process with a robust, database-backed solution using SQLite and JDBC.
 
-### 🔨 Compile (from project root):
-```bash
-javac -d out src/models/enums/*.java src/models/*.java src/services/*.java
+✅ Inventory Management
+Inventory items (breads, toppings, drinks, chips) are stored in the SQLite database under the Inventory table (optional extension if tracking stock).
+The application dynamically loads inventory data from the database at runtime, ensuring accurate and up-to-date item listings.
+✅ Order Transactions
+When a customer places and confirms an order, it is:
+Saved as a transaction in the Transactions table.
+All ordered items (sandwiches, drinks, chips) are stored in the associated OrderItems table using a foreign key to the transaction ID.
+This allows full order reconstruction, analytics, and admin reporting.
+✅ CSV & Text Receipt Output
+Each completed order generates:
+A printable text receipt saved in the receipts/ folder.
+A recorded entry in the database for future reference.
+Admins can export all orders to CSV with a single click, enabling simple financial reporting and analysis.
+✅ Tools & Libraries
+SQLite (Embedded DB)
+JDBC for SQL database interaction
+
