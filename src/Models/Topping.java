@@ -12,6 +12,7 @@ public class Topping {
         this.type = type;
         this.extra = extra;
     }
+
     public ToppingType getType() {
         return type;
     }
@@ -19,7 +20,6 @@ public class Topping {
     public boolean isExtra() {
         return extra;
     }
-
 
     public double getPrice() {
         return switch (type) {
@@ -31,6 +31,12 @@ public class Topping {
 
     @Override
     public String toString() {
-        return name + (extra ? " (extra)" : "");
+        String icon = switch (type) {
+            case MEAT -> "🥩";
+            case CHEESE -> "🧀";
+            case REGULAR -> "🥬";
+            case SAUCE -> "🧂";
+        };
+        return icon + " " + name + (extra ? " (Extra)" : "");
     }
 }

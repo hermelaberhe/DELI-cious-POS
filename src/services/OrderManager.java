@@ -2,12 +2,13 @@ package src.services;
 
 import src.models.*;
 import src.models.enums.*;
+import src.dao.TransactionDAO;
+import services.PriceCalculator;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 
 public class OrderManager {
     private final Scanner scanner = new Scanner(System.in);
@@ -15,12 +16,11 @@ public class OrderManager {
     public void run() {
         while (true) {
             showHomeScreen();
-            String input = scanner.nextLine();
-
-            switch (input) {
+            switch (scanner.nextLine()) {
                 case "1" -> startNewOrder();
                 case "2" -> viewPastOrders();
                 case "3" -> exportOrdersToCSV();
+                case "4" -> adminLogin();
                 case "0" -> {
                     System.out.println("👋 Thanks for using DELI-cious. Goodbye!");
                     return;
@@ -31,10 +31,11 @@ public class OrderManager {
     }
 
     private void showHomeScreen() {
-        System.out.println("\n🍴====== Welcome to DELI-cious ======");
+        System.out.println("\n🍽️====== Welcome to DELI-cious ======");
         System.out.println("1️⃣ New Order");
-        System.out.println("2️⃣ View Past Orders 📁");
-        System.out.println("3️⃣ Export Orders to CSV 📊");
+        System.out.println("2️⃣ View Past Orders (Text File)");
+        System.out.println("3️⃣ Export Orders to CSV");
+        System.out.println("4️⃣ Admin Login 🔐");
         System.out.println("0️⃣ Exit");
         System.out.print("👉 Select an option: ");
     }
@@ -51,29 +52,16 @@ public class OrderManager {
             System.out.println("5️⃣ Checkout ✅");
             System.out.println("0️⃣ Cancel Order ❌");
             System.out.print("👉 Choose an option: ");
-
             String input = scanner.nextLine();
+
             switch (input) {
-                case "1" -> {
-                    Sandwich sandwich = createSandwich();
-                    order.addSandwich(sandwich);
-                    System.out.println("🥪 Sandwich added!\n");
-                }
+                case "1" -> order.addSandwich(createSandwich());
                 case "2" -> {
-                    Sandwich signature = createSignatureSandwich();
-                    order.addSandwich(signature);
-                    System.out.println("⭐ Signature sandwich added!\n");
+                    Sandwich sig = createSignatureSandwich();
+                    if (sig != null) order.addSandwich(sig);
                 }
-                case "3" -> {
-                    Drink drink = createDrink();
-                    order.addDrink(drink);
-                    System.out.println("🥤 Drink added!\n");
-                }
-                case "4" -> {
-                    Chip chip = createChip();
-                    order.addChip(chip);
-                    System.out.println("🍟 Chip added!\n");
-                }
+                case "3" -> order.addDrink(createDrink());
+                case "4" -> order.addChip(createChip());
                 case "5" -> {
                     checkoutOrder(order);
                     return;
@@ -89,21 +77,17 @@ public class OrderManager {
 
     private Sandwich createSandwich() {
         System.out.println("\n🥖 Choose bread type:");
-        BreadType[] breads = BreadType.values();
-        for (int i = 0; i < breads.length; i++) System.out.println((i + 1) + ") " + breads[i]);
-        BreadType bread = breads[Integer.parseInt(scanner.nextLine()) - 1];
+        BreadType bread = selectOption(BreadType.values());
 
         System.out.println("\n📏 Choose sandwich size:");
-        SandwichSize[] sizes = SandwichSize.values();
-        for (int i = 0; i < sizes.length; i++) System.out.println((i + 1) + ") " + sizes[i]);
-        SandwichSize size = sizes[Integer.parseInt(scanner.nextLine()) - 1];
+        SandwichSize size = selectOption(SandwichSize.values());
 
         System.out.print("🔥 Toasted? (yes/no): ");
         boolean toasted = scanner.nextLine().trim().toLowerCase().startsWith("y");
 
         Sandwich sandwich = new Sandwich(bread, size, toasted);
-        System.out.println("\n🥗 Add toppings (type 'done' to finish):");
 
+        System.out.println("\n🥗 Add toppings (type 'done' to finish):");
         while (true) {
             System.out.print("👉 Topping name: ");
             String name = scanner.nextLine().trim();
@@ -112,14 +96,15 @@ public class OrderManager {
             try {
                 System.out.print("🍽️ Topping type (MEAT, CHEESE, REGULAR, SAUCE): ");
                 ToppingType type = ToppingType.valueOf(scanner.nextLine().trim().toUpperCase());
+
                 System.out.print("➕ Add as extra? (y/n): ");
                 boolean extra = scanner.nextLine().trim().toLowerCase().startsWith("y");
+
                 sandwich.addTopping(new Topping(name, type, extra));
             } catch (IllegalArgumentException e) {
                 System.out.println("❌ Invalid topping type.");
             }
         }
-
         return sandwich;
     }
 
@@ -127,23 +112,45 @@ public class OrderManager {
         System.out.println("\n⭐ Signature Sandwiches:");
         System.out.println("1) BLT");
         System.out.println("2) Philly Cheese Steak");
+        System.out.print("👉 Choose a signature sandwich: ");
+        String choice = scanner.nextLine().trim();
 
-        return switch (scanner.nextLine().trim()) {
-            case "1" -> new SignatureSandwich("blt");
-            case "2" -> new SignatureSandwich("philly");
-            default -> {
-                System.out.println("❌ Invalid. Returning to custom sandwich.");
-                yield createSandwich();
+        Sandwich sandwich;
+
+        switch (choice) {
+            case "1" -> {
+                sandwich = new Sandwich(BreadType.WHITE, SandwichSize.MEDIUM_8, true);
+                sandwich.addTopping(new Topping("bacon", ToppingType.MEAT, false));
+                sandwich.addTopping(new Topping("cheddar", ToppingType.CHEESE, false));
+                sandwich.addTopping(new Topping("lettuce", ToppingType.REGULAR, false));
+                sandwich.addTopping(new Topping("tomato", ToppingType.REGULAR, false));
+                sandwich.addTopping(new Topping("ranch", ToppingType.SAUCE, false));
             }
-        };
+            case "2" -> {
+                sandwich = new Sandwich(BreadType.WHITE, SandwichSize.MEDIUM_8, true);
+                sandwich.addTopping(new Topping("steak", ToppingType.MEAT, false));
+                sandwich.addTopping(new Topping("american", ToppingType.CHEESE, false));
+                sandwich.addTopping(new Topping("peppers", ToppingType.REGULAR, false));
+                sandwich.addTopping(new Topping("mayo", ToppingType.SAUCE, false));
+            }
+            default -> {
+                System.out.println("❌ Invalid choice.");
+                return null;
+            }
+        }
+
+        // Optional customization
+        System.out.print("\nWould you like to add/remove toppings? (y/n): ");
+        if (scanner.nextLine().trim().toLowerCase().startsWith("y")) {
+            return createSandwich(); // Let them use custom flow
+        }
+
+        return sandwich;
     }
 
     private Drink createDrink() {
         System.out.println("\n🥤 Choose drink size:");
-        DrinkSize[] sizes = DrinkSize.values();
-        for (int i = 0; i < sizes.length; i++) System.out.println((i + 1) + ") " + sizes[i]);
-        DrinkSize size = sizes[Integer.parseInt(scanner.nextLine()) - 1];
-
+        DrinkSize size = selectOption(DrinkSize.values());
         System.out.print("Flavor: ");
         return new Drink(size, scanner.nextLine().trim());
     }
@@ -169,54 +176,85 @@ public class OrderManager {
 
         double total = PriceCalculator.calculateOrderTotal(order);
         System.out.printf("\n💰 Order Total: $%.2f\n", total);
-        System.out.println("\n🙏 Thank you for your order!");
 
         System.out.println("\n💳 Select payment method:");
         System.out.println("1) Cash");
         System.out.println("2) Card");
         System.out.println("3) Mobile Pay");
         System.out.print("👉 Your choice: ");
-        String paymentInput = scanner.nextLine().trim();
-
-        String method = switch (paymentInput) {
+        String method = switch (scanner.nextLine().trim()) {
             case "1" -> "Cash";
             case "2" -> "Card";
             case "3" -> "Mobile Pay";
             default -> "Unknown";
         };
 
-        System.out.println("✅ Payment received via " + method + ".");
-        saveReceipt(order, method);
+        System.out.println("✅ Payment received via " + method);
+        new TransactionDAO().saveOrder(order, method);
     }
 
-    private void saveReceipt(Order order, String method) {
-        try {
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
-            File file = new File("receipts/" + timestamp + ".txt");
-            file.getParentFile().mkdirs();
+    private void adminLogin() {
+        System.out.print("\n🔐 Enter admin password: ");
+        if (!scanner.nextLine().trim().equals("deli123")) {
+            System.out.println("❌ Incorrect password.\n");
+            return;
+        }
 
-            PrintWriter writer = new PrintWriter(file);
-            writer.println("====== DELI-cious Receipt ======");
-            int count = 1;
-            for (Sandwich s : order.getSandwiches()) writer.println("Sandwich " + (count++) + ":\n" + s + "\n");
-            count = 1;
-            for (Drink d : order.getDrinks()) writer.println("Drink " + (count++) + ": " + d);
-            count = 1;
-            for (Chip c : order.getChips()) writer.println("Chip " + (count++) + ": " + c);
-            writer.printf("\nTotal: $%.2f\n", PriceCalculator.calculateOrderTotal(order));
-            writer.println("Payment Method: " + method);
-            writer.println("\n🙏 Thank you for dining with us!");
-            writer.close();
+        System.out.println("\n✅ Access granted. Welcome, Admin!");
+        List<OrderTransaction> transactions = new TransactionDAO().getAllTransactions();
 
-            System.out.println("📄 Receipt saved to: " + file.getPath() + "\n");
+        if (transactions.isEmpty()) {
+            System.out.println("📭 No transactions found.");
+            return;
+        }
+
+        System.out.println("\n🧾 Transaction History:");
+        double totalRevenue = 0;
+        for (OrderTransaction tx : transactions) {
+            System.out.printf("🆔 %d | 💵 $%.2f | 💳 %s | 📅 %s%n", tx.getId(), tx.getTotalAmount(), tx.getPaymentMethod(), tx.getTimestamp());
+            tx.getItemDescriptions().forEach(item -> System.out.println("   - " + item));
+            System.out.println("------");
+            totalRevenue += tx.getTotalAmount();
+        }
+
+        System.out.printf("\n📈 Total Revenue: $%.2f\n", totalRevenue);
+    }
+
+    private void exportOrdersToCSV() {
+        File folder = new File("receipts");
+        if (!folder.exists()) {
+            System.out.println("📁 No receipts found to export.");
+            return;
+        }
+
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
+        if (files == null || files.length == 0) {
+            System.out.println("📁 No receipts found to export.");
+            return;
+        }
+
+        try (PrintWriter writer = new PrintWriter(new File("orders.csv"))) {
+            writer.println("OrderID,ItemType,Description");
+            for (File file : files) {
+                String orderId = file.getName().replace(".txt", "");
+                try (Scanner reader = new Scanner(file)) {
+                    while (reader.hasNextLine()) {
+                        String line = reader.nextLine().trim();
+                        if (line.startsWith("Sandwich") || line.startsWith("Drink") || line.startsWith("Chip")) {
+                            writer.printf("%s,%s,\"%s\"%n", orderId, line.split(" ")[0], line);
+                        }
+                    }
+                }
+            }
+            System.out.println("✅ Orders exported to orders.csv\n");
         } catch (Exception e) {
-            System.out.println("❌ Error saving receipt: " + e.getMessage());
+            System.out.println("❌ Failed to export orders: " + e.getMessage());
         }
     }
 
     private void viewPastOrders() {
         File folder = new File("receipts");
-        if (!folder.exists() || !folder.isDirectory()) {
+        if (!folder.exists()) {
             System.out.println("📁 No past orders found.");
             return;
         }
@@ -246,42 +284,8 @@ public class OrderManager {
         }
     }
 
-    private void exportOrdersToCSV() {
-        File folder = new File("receipts");
-        if (!folder.exists() || !folder.isDirectory()) {
-            System.out.println("📁 No receipts found to export.");
-            return;
-        }
-
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
-        if (files == null || files.length == 0) {
-            System.out.println("📁 No receipts found to export.");
-            return;
-        }
-
-        try {
-            File csvFile = new File("orders.csv");
-            PrintWriter writer = new PrintWriter(csvFile);
-
-            writer.println("OrderID,ItemType,Description");
-
-            for (File file : files) {
-                String orderId = file.getName().replace(".txt", "");
-
-                try (Scanner reader = new Scanner(file)) {
-                    while (reader.hasNextLine()) {
-                        String line = reader.nextLine().trim();
-                        if (line.startsWith("Sandwich") || line.startsWith("Drink") || line.startsWith("Chip")) {
-                            writer.printf("%s,%s,\"%s\"%n", orderId, line.split(" ")[0], line);
-                        }
-                    }
-                }
-            }
-
-            writer.close();
-            System.out.println("✅ Orders exported to orders.csv\n");
-        } catch (Exception e) {
-            System.out.println("❌ Failed to export orders: " + e.getMessage());
-        }
+    private <T> T selectOption(T[] options) {
+        for (int i = 0; i < options.length; i++) System.out.println((i + 1) + ") " + options[i]);
+        return options[Integer.parseInt(scanner.nextLine()) - 1];
     }
 }

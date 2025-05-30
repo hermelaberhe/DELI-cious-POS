@@ -1,0 +1,27 @@
+@startuml
+start
+
+:Welcome Screen;
+partition Menu {
+    :1️⃣ New Order;
+    :2️⃣ View Past Orders;
+    :3️⃣ Export to CSV;
+    :4️⃣ Admin Login;
+    :0️⃣ Exit;
+}
+
+if (New Order) then (yes)
+  :Add Sandwich / Signature;
+  :Add Drink;
+  :Add Chips;
+  :Checkout;
+  :Pay & Save Receipt;
+endif
+
+if (Admin Login) then (yes)
+  :Enter Password;
+  :View Transactions;
+endif
+
+stop
+@enduml

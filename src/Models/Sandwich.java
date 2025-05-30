@@ -17,6 +17,7 @@ public class Sandwich {
         this.size = size;
         this.toasted = toasted;
     }
+
     public SandwichSize getSize() {
         return size;
     }
@@ -44,19 +45,16 @@ public class Sandwich {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(size).append(" sandwich on ").append(breadType)
-                .append(" bread").append(toasted ? " (Toasted)" : " (Not Toasted)").append("\n");
-
-        if (toppings.isEmpty()) {
-            sb.append("  No toppings added\n");
-        } else {
-            sb.append("  Toppings:\n");
-            for (Topping t : toppings) {
-                sb.append("    - ").append(t).append("\n");
+        sb.append(size).append(" sandwich on ").append(breadType);
+        sb.append(toasted ? " (Toasted)" : " (Not Toasted)");
+        if (!toppings.isEmpty()) {
+            sb.append("\n  🥗 Toppings:");
+            for (src.models.Topping t : toppings) {
+                sb.append("\n   - ").append(t);
             }
+        } else {
+            sb.append("\n  No toppings added.");
         }
-
-        sb.append(String.format("  💲 Price: $%.2f", calculatePrice())).append("\n");
         return sb.toString();
     }
 }

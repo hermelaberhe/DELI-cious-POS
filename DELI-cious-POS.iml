@@ -43,5 +43,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="sqlite-jdbc" level="project" />
+    <orderEntry type="library" exported="" name="sqlite-jdbc-3.43.0.0" level="project" />
+    <orderEntry type="library" exported="" name="lib" level="project" />
+    <orderEntry type="library" name="javafx-sdk-24.0-2" level="project" />
   </component>
 </module>

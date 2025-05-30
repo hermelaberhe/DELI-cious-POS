@@ -13,6 +13,8 @@ public class Chip {
 
     @Override
     public String toString() {
-        return flavor + String.format(" ($%.2f)", getPrice());
+        return flavor + " 🍟";
     }
+
 }
+

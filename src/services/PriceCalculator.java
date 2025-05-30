@@ -1,72 +1,62 @@
-package src.services;
+package services;
 
 import src.models.*;
 import src.models.enums.*;
 
+
+
 public class PriceCalculator {
 
-    public static double calculateSandwichPrice(Sandwich sandwich) {
-        double basePrice = switch (sandwich.getSize()) {
-            case SMALL_4 -> 5.50;
-            case MEDIUM_8 -> 7.00;
-            case LARGE_12 -> 8.50;
-        };
-
-        double toppingCost = 0.0;
-        for (Topping topping : sandwich.getToppings()) {
-            toppingCost += switch (topping.getType()) {
-                case MEAT -> getMeatPrice(topping.isExtra(), sandwich.getSize());
-                case CHEESE -> getCheesePrice(topping.isExtra(), sandwich.getSize());
-                case REGULAR, SAUCE -> 0.0; // Free toppings
-            };
-        }
-
-        return basePrice + toppingCost;
-    }
-
-    private static double getMeatPrice(boolean extra, SandwichSize size) {
-        return switch (size) {
-            case SMALL_4 -> extra ? 1.50 : 1.00;
-            case MEDIUM_8 -> extra ? 3.00 : 2.00;
-            case LARGE_12 -> extra ? 4.50 : 3.00;
-        };
-    }
-
-    private static double getCheesePrice(boolean extra, SandwichSize size) {
-        return switch (size) {
-            case SMALL_4 -> extra ? 1.05 : 0.75;
-            case MEDIUM_8 -> extra ? 2.10 : 1.50;
-            case LARGE_12 -> extra ? 3.15 : 2.25;
-        };
-    }
-
-    public static double calculateDrinkPrice(Drink drink) {
-        return switch (drink.getSize()) {
-            case SMALL -> 2.00;
-            case MEDIUM -> 2.50;
-            case LARGE -> 3.00;
-        };
-    }
-
-    public static double calculateChipPrice(Chip chip) {
-        return 1.50;
-    }
-
+    // Calculates total price for the full order
     public static double calculateOrderTotal(Order order) {
-        double total = 0.0;
+        double total = 0;
 
-        for (Sandwich sandwich : order.getSandwiches()) {
-            total += calculateSandwichPrice(sandwich);
+        for (Sandwich s : order.getSandwiches()) {
+            total += calculateSandwichPrice(s);
         }
 
-        for (Drink drink : order.getDrinks()) {
-            total += calculateDrinkPrice(drink);
+        for (Drink d : order.getDrinks()) {
+            total += calculateDrinkPrice(d);
         }
 
-        for (Chip chip : order.getChips()) {
-            total += calculateChipPrice(chip);
+        for (Chip c : order.getChips()) {
+            total += calculateChipPrice(c);
         }
 
         return total;
+    }
+
+    // Calculate sandwich price based on size and toppings
+    public static double calculateSandwichPrice(Sandwich sandwich) {
+        double basePrice = switch (sandwich.getSize()) {
+            case SMALL_4 -> 5.00;
+            case MEDIUM_8 -> 7.50;
+            case LARGE_12 -> 10.00;
+        };
+
+        double toppingPrice = 0;
+        for (Topping topping : sandwich.getToppings()) {
+            switch (topping.getType()) {
+                case MEAT -> toppingPrice += topping.isExtra() ? 2.00 : 1.00;
+                case CHEESE -> toppingPrice += topping.isExtra() ? 1.50 : 0.75;
+                case REGULAR, SAUCE -> toppingPrice += topping.isExtra() ? 1.00 : 0.50;
+            }
+        }
+
+        return basePrice + toppingPrice;
+    }
+
+    // Calculate drink price based on size
+    public static double calculateDrinkPrice(Drink drink) {
+        return switch (drink.getSize()) {
+            case SMALL -> 1.50;
+            case MEDIUM -> 2.00;
+            case LARGE -> 2.50;
+        };
+    }
+
+    // Flat rate for all chips
+    public static double calculateChipPrice(Chip chip) {
+        return 1.25;
     }
 }
