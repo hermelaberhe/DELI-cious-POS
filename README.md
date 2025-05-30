@@ -1,4 +1,6 @@
 # 🥪 DELI-cious POS
+https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-ca84-61f7-af7a-033234aa1f5e/raw?se=2025-05-30T16%3A25%3A17Z&sp=r&sv=2024-08-04&sr=b&scid=b1e1471c-d3f9-56ad-a244-2c88f323fff0&skoid=04233560-0ad7-493e-8bf0-1347c317d021&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-30T12%3A55%3A30Z&ske=2025-05-31T12%3A55%3A30Z&sks=b&skv=2024-08-04&sig=5A4KMM7MR9sNkidwgDrKlJLktRedPD5oXO4UXUI7y8M%3D![Uploading image.png…]()
+
 
 A Java-based Point-of-Sale system for sandwich shops — designed for quick ordering, flexible customization, receipt generation, and CSV exporting.
 
