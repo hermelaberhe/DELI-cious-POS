@@ -3,20 +3,15 @@ package src.models;
 import src.models.enums.ToppingType;
 
 public class Topping {
-    private String name;
-    private ToppingType type;
-    private boolean extra;
+    private final String name;
+    private final ToppingType type;
+    private final boolean extra;
 
     public Topping(String name, ToppingType type, boolean extra) {
         this.name = name;
         this.type = type;
         this.extra = extra;
     }
-
-    public String getName() {
-        return name;
-    }
-
     public ToppingType getType() {
         return type;
     }
@@ -25,8 +20,17 @@ public class Topping {
         return extra;
     }
 
+
+    public double getPrice() {
+        return switch (type) {
+            case MEAT -> extra ? 2.0 : 1.5;
+            case CHEESE -> extra ? 1.5 : 1.0;
+            case REGULAR, SAUCE -> extra ? 1.0 : 0.5;
+        };
+    }
+
     @Override
     public String toString() {
-        return (extra ? "Extra " : "") + name;
+        return name + (extra ? " (extra)" : "");
     }
 }

@@ -12,24 +12,32 @@ public class PriceCalculator {
             case LARGE_12 -> 8.50;
         };
 
-        double toppingCost = 0;
-        for (Topping t : sandwich.getToppings()) {
-            switch (t.getType()) {
-                case MEAT -> toppingCost += switch (sandwich.getSize()) {
-                    case SMALL_4 -> t.isExtra() ? 1.50 : 1.00;
-                    case MEDIUM_8 -> t.isExtra() ? 3.00 : 2.00;
-                    case LARGE_12 -> t.isExtra() ? 4.50 : 3.00;
-                };
-                case CHEESE -> toppingCost += switch (sandwich.getSize()) {
-                    case SMALL_4 -> t.isExtra() ? 1.05 : 0.75;
-                    case MEDIUM_8 -> t.isExtra() ? 2.10 : 1.50;
-                    case LARGE_12 -> t.isExtra() ? 3.15 : 2.25;
-                };
-                default -> toppingCost += 0; // Regular + Sauce are free
-            }
+        double toppingCost = 0.0;
+        for (Topping topping : sandwich.getToppings()) {
+            toppingCost += switch (topping.getType()) {
+                case MEAT -> getMeatPrice(topping.isExtra(), sandwich.getSize());
+                case CHEESE -> getCheesePrice(topping.isExtra(), sandwich.getSize());
+                case REGULAR, SAUCE -> 0.0; // Free toppings
+            };
         }
 
         return basePrice + toppingCost;
+    }
+
+    private static double getMeatPrice(boolean extra, SandwichSize size) {
+        return switch (size) {
+            case SMALL_4 -> extra ? 1.50 : 1.00;
+            case MEDIUM_8 -> extra ? 3.00 : 2.00;
+            case LARGE_12 -> extra ? 4.50 : 3.00;
+        };
+    }
+
+    private static double getCheesePrice(boolean extra, SandwichSize size) {
+        return switch (size) {
+            case SMALL_4 -> extra ? 1.05 : 0.75;
+            case MEDIUM_8 -> extra ? 2.10 : 1.50;
+            case LARGE_12 -> extra ? 3.15 : 2.25;
+        };
     }
 
     public static double calculateDrinkPrice(Drink drink) {
@@ -45,16 +53,20 @@ public class PriceCalculator {
     }
 
     public static double calculateOrderTotal(Order order) {
-        double total = 0;
-        for (Sandwich s : order.getSandwiches()) {
-            total += calculateSandwichPrice(s);
+        double total = 0.0;
+
+        for (Sandwich sandwich : order.getSandwiches()) {
+            total += calculateSandwichPrice(sandwich);
         }
-        for (Drink d : order.getDrinks()) {
-            total += calculateDrinkPrice(d);
+
+        for (Drink drink : order.getDrinks()) {
+            total += calculateDrinkPrice(drink);
         }
-        for (Chip c : order.getChips()) {
-            total += calculateChipPrice(c);
+
+        for (Chip chip : order.getChips()) {
+            total += calculateChipPrice(chip);
         }
+
         return total;
     }
 }

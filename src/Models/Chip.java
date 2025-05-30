@@ -1,18 +1,18 @@
 package src.models;
 
 public class Chip {
-    private String flavor;
+    private final String flavor;
 
     public Chip(String flavor) {
         this.flavor = flavor;
     }
 
-    public String getFlavor() {
-        return flavor;
+    public double getPrice() {
+        return 1.5;
     }
 
     @Override
     public String toString() {
-        return "Chip - " + flavor;
+        return flavor + String.format(" ($%.2f)", getPrice());
     }
 }

@@ -5,30 +5,22 @@ import src.models.enums.SandwichSize;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Sandwich {
-    private BreadType breadType;
-    private SandwichSize size;
-    private boolean toasted;
-    private List<Topping> toppings;
+    private final BreadType breadType;
+    private final SandwichSize size;
+    private final boolean toasted;
+    protected final List<Topping> toppings = new ArrayList<>();
 
     public Sandwich(BreadType breadType, SandwichSize size, boolean toasted) {
         this.breadType = breadType;
         this.size = size;
         this.toasted = toasted;
-        this.toppings = new ArrayList<>();
     }
-
-    public BreadType getBreadType() {
-        return breadType;
-    }
-
     public SandwichSize getSize() {
         return size;
     }
 
-    public boolean isToasted() {
-        return toasted;
-    }
 
     public void addTopping(Topping topping) {
         toppings.add(topping);
@@ -36,6 +28,17 @@ public class Sandwich {
 
     public List<Topping> getToppings() {
         return toppings;
+    }
+
+    public double calculatePrice() {
+        double base = switch (size) {
+            case SMALL_4 -> 5.0;
+            case MEDIUM_8 -> 7.0;
+            case LARGE_12 -> 9.0;
+        };
+
+        double toppingsTotal = toppings.stream().mapToDouble(Topping::getPrice).sum();
+        return base + toppingsTotal;
     }
 
     @Override
@@ -53,6 +56,7 @@ public class Sandwich {
             }
         }
 
+        sb.append(String.format("  💲 Price: $%.2f", calculatePrice())).append("\n");
         return sb.toString();
     }
 }
