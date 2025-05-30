@@ -1,6 +1,6 @@
 # 🥪 DELI-cious POS
 
-[image](https://github.com/user-attachments/assets/ef1c63db-18c7-4a47-a9be-d2ae6317a9c7)
+[image](https://github.com/user-attachments/assets/e35fabef-925a-4428-9230-34840fdbb027)
 
 
 
