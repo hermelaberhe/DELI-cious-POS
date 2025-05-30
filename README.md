@@ -34,6 +34,10 @@ DELI-cious-POS/
 
 
 
+Flow chart -using PlantUML
+![image](https://github.com/user-attachments/assets/1a8272d7-7520-4384-8f75-d978789841a1)
+
+
 ---
 
 ## 🧑‍💻 How to Run
