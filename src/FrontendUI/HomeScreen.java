@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import src.models.Order;
 
 public class HomeScreen {
     private VBox view;
@@ -22,8 +23,9 @@ public class HomeScreen {
         Button exitBtn = new Button("🚪 Exit");
 
         newOrderBtn.setOnAction(e -> {
-            NewOrderScreen orderScreen = new NewOrderScreen(stage);
-            stage.setScene(new Scene(orderScreen.getView(), 400, 350));
+            Order newOrder = new Order();  // ✅ create a fresh order
+            NewOrderScreen orderScreen = new NewOrderScreen(stage, newOrder);
+            stage.setScene(new Scene(orderScreen.getView(), 400, 400));
         });
 
         adminLoginBtn.setOnAction(e -> {

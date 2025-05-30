@@ -1,16 +1,21 @@
 package src.models;
 
+import src.models.enums.SandwichSize;
 import src.models.enums.ToppingType;
 
 public class Topping {
-    private final String name;
-    private final ToppingType type;
-    private final boolean extra;
+    private String name;
+    private ToppingType type;
+    private boolean isExtra;
 
-    public Topping(String name, ToppingType type, boolean extra) {
+    public Topping(String name, ToppingType type, boolean isExtra) {
         this.name = name;
         this.type = type;
-        this.extra = extra;
+        this.isExtra = isExtra;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ToppingType getType() {
@@ -18,25 +23,25 @@ public class Topping {
     }
 
     public boolean isExtra() {
-        return extra;
+        return isExtra;
     }
 
-    public double getPrice() {
+    public double getPrice(SandwichSize size) {
+        double multiplier = switch (size) {
+            case SMALL_4 -> 1;
+            case MEDIUM_8 -> 2;
+            case LARGE_12 -> 3;
+        };
+
         return switch (type) {
-            case MEAT -> extra ? 2.0 : 1.5;
-            case CHEESE -> extra ? 1.5 : 1.0;
-            case REGULAR, SAUCE -> extra ? 1.0 : 0.5;
+            case MEAT -> (isExtra ? 0.5 : 1.0) * multiplier;
+            case CHEESE -> (isExtra ? 0.3 : 0.75) * multiplier;
+            default -> 0.0; // regular, sauce, sides
         };
     }
 
     @Override
     public String toString() {
-        String icon = switch (type) {
-            case MEAT -> "🥩";
-            case CHEESE -> "🧀";
-            case REGULAR -> "🥬";
-            case SAUCE -> "🧂";
-        };
-        return icon + " " + name + (extra ? " (Extra)" : "");
+        return name + (isExtra ? " (extra)" : "");
     }
 }

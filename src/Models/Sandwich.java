@@ -1,60 +1,77 @@
 package src.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import src.models.enums.BreadType;
 import src.models.enums.SandwichSize;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Sandwich {
-    private final BreadType breadType;
-    private final SandwichSize size;
-    private final boolean toasted;
-    protected final List<Topping> toppings = new ArrayList<>();
+    private String name = "Custom Sandwich";
+    private BreadType breadType;
+    private SandwichSize size;
+    private boolean toasted;
+    private List<Topping> toppings = new ArrayList<>();
 
-    public Sandwich(BreadType breadType, SandwichSize size, boolean toasted) {
+    public Sandwich() {}  // For Jackson
+
+    @JsonCreator
+    public Sandwich(
+            @JsonProperty("breadType") BreadType breadType,
+            @JsonProperty("size") SandwichSize size,
+            @JsonProperty("toasted") boolean toasted
+    ) {
         this.breadType = breadType;
         this.size = size;
         this.toasted = toasted;
     }
 
-    public SandwichSize getSize() {
-        return size;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
+    public BreadType getBreadType() { return breadType; }
+    public void setBreadType(BreadType breadType) { this.breadType = breadType; }
+
+    public SandwichSize getSize() { return size; }
+    public void setSize(SandwichSize size) { this.size = size; }
+
+    public boolean isToasted() { return toasted; }
+    public void setToasted(boolean toasted) { this.toasted = toasted; }
+
+    public List<Topping> getToppings() { return toppings; }
+    public void setToppings(List<Topping> toppings) { this.toppings = toppings; }
 
     public void addTopping(Topping topping) {
         toppings.add(topping);
     }
 
-    public List<Topping> getToppings() {
-        return toppings;
-    }
-
     public double calculatePrice() {
         double base = switch (size) {
-            case SMALL_4 -> 5.0;
-            case MEDIUM_8 -> 7.0;
-            case LARGE_12 -> 9.0;
+            case SMALL_4 -> 5.50;
+            case MEDIUM_8 -> 7.00;
+            case LARGE_12 -> 8.50;
         };
-
-        double toppingsTotal = toppings.stream().mapToDouble(Topping::getPrice).sum();
-        return base + toppingsTotal;
+        double toppingTotal = toppings.stream().mapToDouble(t -> t.getPrice(size)).sum();
+        return base + toppingTotal;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(size).append(" sandwich on ").append(breadType);
+        sb.append("\n🍽 ").append(name);
+        sb.append("\n").append(size).append(" sandwich on ").append(breadType);
         sb.append(toasted ? " (Toasted)" : " (Not Toasted)");
         if (!toppings.isEmpty()) {
             sb.append("\n  🥗 Toppings:");
-            for (src.models.Topping t : toppings) {
+            for (Topping t : toppings) {
                 sb.append("\n   - ").append(t);
             }
         } else {
             sb.append("\n  No toppings added.");
         }
+        sb.append("\n  💵 Price: $").append(String.format("%.2f", calculatePrice()));
         return sb.toString();
     }
 }

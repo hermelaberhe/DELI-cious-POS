@@ -1,0 +1,9 @@
+public static List<File> listReceiptFiles() {
+    File folder = new File("receipts");
+    File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
+    List<File> result = new ArrayList<>();
+    if (files != null) {
+        Collections.addAll(result, files);
+    }
+    return result;
+}
