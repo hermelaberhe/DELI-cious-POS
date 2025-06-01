@@ -49,5 +49,16 @@
     <orderEntry type="library" name="javafx-sdk-24.0-2" level="project" />
     <orderEntry type="library" name="lib (2)" level="project" />
     <orderEntry type="library" name="lib (3)" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jakarta.mail-2.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="jakarta.mail-2.0.1" level="project" />
+    <orderEntry type="library" name="jakarta.activation-2.0.1" level="project" />
   </component>
 </module>
