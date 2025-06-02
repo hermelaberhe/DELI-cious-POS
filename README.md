@@ -102,7 +102,7 @@ csv file
  📊 UML & ER Diagrams created using PlantUML
 
 ### UML Class Diagram (Simplified)
-
+![img_8.png](img_8.png)
 
 - **Order**
     - List<Sandwich>
@@ -122,13 +122,12 @@ csv file
 - **Orders** (id, timestamp, total)
 - **Items** (order_id, item_name, type, size, calories, price)
 
-(Screenshots or exports of these diagrams are included in the final project submission folder)
 
 
 🔧 Technologies Used
 
 - Java 17+
-- SQLite (JDBC)-link -
+- SQLite (JDBC)-link -https://www.mathworks.com/help/database/ug/sqlite-jdbc-for-macos.html
 - Jakarta Mail + Mailtrap -Link - https://mailtrap.io/inboxes/3755020/messages/4910564881
 - IntelliJ IDEA
 
