@@ -1,17 +1,14 @@
 package models.signature;
 
-import models.*;
-import models.enums.*;
-
+import models.Sandwich;
+import models.enums.BreadType;
+import models.enums.SandwichSize;
 
 public abstract class SignatureSandwich extends Sandwich {
-    public SignatureSandwich(String name, BreadType bread, SandwichSize size, boolean toasted) {
-        super(bread, size, toasted);
+    public SignatureSandwich(String name, BreadType breadType, SandwichSize size, boolean toasted) {
+        super(breadType, size, toasted);
         setName(name);
-        loadSignatureToppings();
-    }
-
-    public void setName(String name) {
+        loadSignatureToppings(); // 👈 This loads the default toppings
     }
 
     protected abstract void loadSignatureToppings();  // Child classes must define

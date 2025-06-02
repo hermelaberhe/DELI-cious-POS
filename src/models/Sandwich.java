@@ -62,6 +62,12 @@ public class Sandwich {
     public void addTopping(models.Topping topping) {
         this.toppings.add(topping);
     }
+    public void removeTopping(int index) {
+        if (index >= 0 && index < toppings.size()) {
+            toppings.remove(index);
+        }
+    }
+
 
     public double calculatePrice() {
         double price = size.getBasePrice();

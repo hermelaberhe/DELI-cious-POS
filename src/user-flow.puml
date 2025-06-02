@@ -1,68 +1,18 @@
 @startuml
-class OrderManager {
-  +run()
-  +startNewOrder()
-  +checkoutOrder()
-}
-
-class Order {
-  -sandwiches: List
-  -drinks: List
-  -chips: List
-  +addSandwich()
-  +addDrink()
-  +addChip()
-  +isEmpty()
-}
-
-class Sandwich {
-  -bread: BreadType
-  -size: SandwichSize
-  -toppings: List<Topping>
-  -toasted: boolean
-}
-
-class Topping {
-  -name: String
-  -type: ToppingType
-  -extra: boolean
-}
-
-class Drink {
-  -size: DrinkSize
-}
-
-class Chip {
-  -name: String
-}
-
-class PriceCalculator {
-  +calculateSandwichPrice()
-  +calculateDrinkPrice()
-  +calculateChipPrice()
-  +calculateOrderTotal()
-}
-
-class TransactionDAO {
-  +saveTransaction()
-  +getAllTransactions()
-}
-
-class DBUtil {
-  +connect(): Connection
-}
-
-class DBInit {
-  +initializeTables()
-}
-
-OrderManager --> Order
-Order --> Sandwich
-Order --> Drink
-Order --> Chip
-Sandwich --> Topping
-OrderManager --> PriceCalculator
-OrderManager --> TransactionDAO
-TransactionDAO --> DBUtil
-DBInit --> DBUtil
+start
+:Home Screen;
+if (Choose Order?) then (yes)
+  :Add Sandwich;
+  :Add Drink;
+  :Add Chips;
+  :Checkout;
+  :Confirm & Pay;
+  :Print/Email Receipt;
+else
+  if (View Past Orders?) then (yes)
+    :Show Order History;
+  endif
+endif
+stop
 @enduml
+

@@ -1,5 +1,6 @@
 package gui;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 
@@ -24,6 +25,16 @@ import models.Topping;
 import models.signature.BLT;
 import models.signature.PhillyCheeseSteak;
 
+
+import java.util.List;
+import java.util.Scanner;
+
+import models.*;
+import models.enums.*;
+import models.signature.BLT;
+import models.signature.PhillyCheeseSteak;
+import utils.DatabaseManager;
+
 public class AddSandwichScreen {
     private final Scanner scanner = new Scanner(System.in);
     private final Order order;
@@ -40,22 +51,25 @@ public class AddSandwichScreen {
         System.out.print("👉 Your choice: ");
         String choice = scanner.nextLine().trim();
 
+
         Sandwich sandwich;
+
         switch (choice) {
             case "1":
                 sandwich = buildCustomSandwich();
                 break;
             case "2":
                 sandwich = new BLT();
+                customizeSignature(sandwich);
                 break;
             case "3":
                 sandwich = new PhillyCheeseSteak();
+                customizeSignature(sandwich);
                 break;
             default:
                 System.out.println("❌ Invalid. Going back to order screen...");
                 return;
         }
-
         order.addSandwich(sandwich);
         System.out.println("✅ " + sandwich.getName() + " added to order!");
     }
@@ -79,9 +93,9 @@ public class AddSandwichScreen {
         return sandwich;
     }
 
-    private models.enums.BreadType chooseBread() {
+    private BreadType chooseBread() {
         System.out.println("🍞 Choose your bread:");
-        for (models.enums.BreadType bread : models.enums.BreadType.values()) {
+        for (BreadType bread : BreadType.values()) {
             System.out.printf("[%d] %s - %d cal, %dg protein, %dg carbs%n",
                     bread.ordinal() + 1,
                     bread.getDisplayName(),
@@ -89,18 +103,18 @@ public class AddSandwichScreen {
                     bread.getProtein(),
                     bread.getCarbs());
         }
-        return models.enums.BreadType.values()[promptChoice(1, models.enums.BreadType.values().length) - 1];
+        return BreadType.values()[promptChoice(1, BreadType.values().length) - 1];
     }
 
-    private models.enums.SandwichSize chooseSize() {
+    private SandwichSize chooseSize() {
         System.out.println("📏 Choose your sandwich size:");
-        for (models.enums.SandwichSize size : models.enums.SandwichSize.values()) {
+        for (SandwichSize size : SandwichSize.values()) {
             System.out.printf("[%d] %s - $%.2f%n",
                     size.ordinal() + 1,
                     size.getDisplayName(),
                     size.getBasePrice());
         }
-        return models.enums.SandwichSize.values()[promptChoice(1, models.enums.SandwichSize.values().length) - 1];
+        return SandwichSize.values()[promptChoice(1, SandwichSize.values().length) - 1];
     }
 
     private void chooseMeats(Sandwich sandwich) {
@@ -210,4 +224,65 @@ public class AddSandwichScreen {
         System.out.println("❌ Invalid selection.");
         return -1;
     }
+
+    private void customizeSignature(Sandwich sandwich) {
+        System.out.println("\n🍽️ You selected a Signature Sandwich: " + sandwich.getName());
+
+        // Show current toppings
+        System.out.println("\n🧾 Current Toppings:");
+        List<Topping> toppings = sandwich.getToppings();
+        for (int i = 0; i < toppings.size(); i++) {
+            System.out.printf("[%d] %s%n", i + 1, toppings.get(i).getName());
+        }
+
+        // Option to remove toppings
+        if (promptYesNo("➖ Would you like to remove any toppings? (y/n): ")) {
+            while (true) {
+                System.out.print("Enter topping number to remove (or press Enter to stop): ");
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) break;
+                int index = parseChoice(input, toppings.size());
+                if (index != -1) {
+                    String removed = toppings.get(index).getName();
+                    toppings.remove(index);
+                    System.out.println("❌ Removed: " + removed);
+                }
+            }
+        }
+
+        // Option to add toppings
+        if (promptYesNo("➕ Would you like to add more toppings? (y/n): ")) {
+            chooseMeats(sandwich);
+            chooseCheeses(sandwich);
+            chooseRegularToppings(sandwich);
+            chooseSauces(sandwich);
+        }
+
+
+        double subtotal = order.calculateSubtotal();
+        double taxRate = 0.101;
+        double tax = subtotal * taxRate;
+        double total = subtotal + tax;
+
+        String timestamp = java.time.LocalDateTime.now().toString();
+        int orderId = DatabaseManager.saveOrderToDatabase(timestamp, total);
+        if (orderId != -1) {
+            for (Sandwich s : order.getSandwiches()) {
+                DatabaseManager.saveSandwich(orderId, s.getName());
+            }
+
+            for (src.models.Drink d : order.getDrinks()) {
+                DatabaseManager.saveDrink(orderId, d.getType().getDisplayName(), d.getSize().name());
+            }
+
+            for (src.models.Chip c : order.getChips()) {
+                DatabaseManager.saveChip(orderId, c.getType().getName());
+            }
+
+            System.out.println("💾 Order #" + orderId + " + items saved to database!");
+        }
+
+
+    }
 }
+

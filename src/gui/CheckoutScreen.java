@@ -1,8 +1,10 @@
 package gui;
 
-import models.Order;
+import models.*;
+import utils.DatabaseManager;
 import src.utils.ReceiptManager;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class CheckoutScreen {
@@ -32,6 +34,23 @@ public class CheckoutScreen {
         System.out.print("\n✅ Confirm order? (y/n): ");
         String input = scanner.nextLine().trim().toLowerCase();
         if (input.startsWith("y")) {
+            // Save to database
+            String timestamp = LocalDateTime.now().toString();
+            int orderId = DatabaseManager.saveOrderToDatabase(timestamp, total);
+
+            if (orderId != -1) {
+                for (Sandwich s : order.getSandwiches()) {
+                    DatabaseManager.saveSandwich(orderId, s.getName());
+                }
+                for (src.models.Drink d : order.getDrinks()) {
+                    DatabaseManager.saveDrink(orderId, d.getType().getDisplayName(), d.getSize().name());
+                }
+                for (src.models.Chip c : order.getChips()) {
+                    DatabaseManager.saveChip(orderId, c.getType().getName());
+                }
+                System.out.println("💾 Order #" + orderId + " + items saved to database!");
+            }
+
             String receipt = order.generateReceipt(total, tax);
             String filename = ReceiptManager.saveReceipt(receipt);
 
@@ -65,7 +84,6 @@ public class CheckoutScreen {
                     String email = scanner.nextLine().trim();
                     ReceiptManager.emailReceipt(email, receipt);
                     break;
-
                 case "0":
                     return;
                 default:

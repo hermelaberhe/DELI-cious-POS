@@ -21,6 +21,5 @@ public class BLT extends models.signature.SignatureSandwich {
         addTopping(new Topping("RANCH", ToppingCategory.SAUCE, false));
     }
 
-    public void addTopping(models.Topping bacon) {
-    }
+
 }

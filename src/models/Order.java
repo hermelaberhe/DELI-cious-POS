@@ -39,13 +39,19 @@ public class Order {
         return sandwiches;
     }
 
-    public List<Drink> getDrinks() {
-        return drinks;
-    }
-
     public List<Chip> getChips() {
         return chips;
     }
+    public List<Sandwich> getSandwich() {
+        return sandwiches;
+    }
+
+    public List<Drink> getDrink() {
+        return drinks;
+    }
+
+
+
 
     public boolean isEmpty() {
         return sandwiches.isEmpty() && drinks.isEmpty() && chips.isEmpty();
@@ -146,5 +152,9 @@ public class Order {
         }
 
         return sb.toString();
+    }
+
+    public List<Drink> getDrinks() {
+        return drinks;
     }
 }

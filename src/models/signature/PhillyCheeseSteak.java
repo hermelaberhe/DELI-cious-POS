@@ -17,7 +17,5 @@ public class PhillyCheeseSteak extends SignatureSandwich {
         addTopping(new Topping("MAYO", ToppingCategory.SAUCE, false));
     }
 
-    public void addTopping(Topping steak) {
-    }
 }
 

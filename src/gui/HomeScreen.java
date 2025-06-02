@@ -16,7 +16,7 @@ public class HomeScreen {
                     new gui.OrderScreen().show(); //
                     break;
                 case "2":
-                    System.out.println("📜 View Past Receipts: Coming soon!");
+                    new ViewPastOrders().show();
                     break;
 
                 case "3":
@@ -40,7 +40,7 @@ public class HomeScreen {
         System.out.println("  🥪 Welcome to DELI-cious POS 🧾");
         System.out.println("===============================\n");
         System.out.println("🍞 1) New Order");
-        System.out.println("📜 2) View Past Receipts");
+        System.out.println("📜 2) View Past Orders");
         System.out.println("📊 3) View Sales Summary");
         System.out.println("📂 4) Export Sales to CSV");
         System.out.println("❌ 0) Exit\n");

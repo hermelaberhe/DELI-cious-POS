@@ -1,27 +1,49 @@
 @startuml
-start
 
-:Welcome Screen;
-partition Menu {
-    :1️⃣ New Order;
-    :2️⃣ View Past Orders;
-    :3️⃣ Export to CSV;
-    :4️⃣ Admin Login;
-    :0️⃣ Exit;
+class Order {
+  +List<Sandwich> sandwiches
+  +List<Drink> drinks
+  +List<Chip> chips
+  +calculateSubtotal()
+  +generateSummary()
 }
 
-if (New Order) then (yes)
-  :Add Sandwich / Signature;
-  :Add Drink;
-  :Add Chips;
-  :Checkout;
-  :Pay & Save Receipt;
-endif
+class Sandwich {
+  -String name
+  -BreadType breadType
+  -SandwichSize size
+  -boolean toasted
+  -List<Topping> toppings
+}
 
-if (Admin Login) then (yes)
-  :Enter Password;
-  :View Transactions;
-endif
+class Topping {
+  -String name
+  -boolean isPremium
+}
 
-stop
+class Drink {
+  -DrinkType type
+  -DrinkSize size
+}
+
+class Chip {
+  -ChipType type
+}
+
+enum BreadType
+enum SandwichSize
+enum DrinkType
+enum DrinkSize
+enum ChipType
+
+Order --> Sandwich
+Order --> Drink
+Order --> Chip
+Sandwich --> Topping
+Sandwich --> BreadType
+Sandwich --> SandwichSize
+Drink --> DrinkType
+Drink --> DrinkSize
+Chip --> ChipType
+
 @enduml
