@@ -63,14 +63,11 @@ A method under Utils/EmailManager- sends a receipt via email using the Mailtrap 
 
 csv file 
 ![img_7.png](img_7.png)
-![img_9.png](img_9.png)
 
  📊 UML & ER Diagrams created using PlantUML
 
-### UML Class Diagram (Simplified)
+### UML Class and User flow Diagram (Simplified)
 ![img_8.png](img_8.png)
-
-### UML User flow (Simplified)
 
 ![img_9.png](img_9.png)
 
