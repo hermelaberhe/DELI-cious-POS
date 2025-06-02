@@ -55,49 +55,15 @@ Checkout
 
 ---
 
-💡 Highlighted Code Snippet
 
-### Email Receipt Feature
-
-```java
-public static void sendEmail(String to, String receiptContent) {
-    Properties props = new Properties();
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.smtp.host", "smtp.mailtrap.io");
-    props.put("mail.smtp.port", "587");
-
-    Session session = Session.getInstance(props, new Authenticator() {
-        protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication("username", "password");
-        }
-    });
-
-    try {
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("receipt@deli-pos.com"));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        message.setSubject("Your DELI-cious Receipt 🧾");
-        message.setText(receiptContent);
-
-        Transport.send(message);
-        System.out.println("📧 Receipt sent to Mailtrap (sandbox inbox)");
-    } catch (MessagingException e) {
-        e.printStackTrace();
-    }
-}
-
----
-
-This method sends a receipt via email using the Mailtrap sandbox inbox. It connects using SMTP and dynamically formats the receipt content.
----
+A method under Utils/EmailManager- sends a receipt via email using the Mailtrap sandbox inbox. It connects using SMTP and dynamically formats the receipt content.
 
 ![img_5.png](img_5.png)
 ![img_6.png](img_6.png)
 
-
 csv file 
 ![img_7.png](img_7.png)
+![img_9.png](img_9.png)
 
  📊 UML & ER Diagrams created using PlantUML
 
