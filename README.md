@@ -69,8 +69,7 @@ csv file
 ### UML Class and User flow Diagram (Simplified)
 ![img_8.png](img_8.png)
 
-![img_9.png](img_9.png)
-
+![img_10.png](img_10.png)
 - **Order**
     - List<Sandwich>
     - List<Drink>
