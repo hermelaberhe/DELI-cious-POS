@@ -1,5 +1,5 @@
 # 🥪 DELI-cious POS
-![img_1.png](img_1.png)
+![img_1.png](Assets/img_1.png)
 **DELI-cious POS** is a full-featured Java-based point-of-sale terminal app for sandwich shops. With a sleek, emoji-rich interface, users can build and customize orders in a way that mirrors real-life deli experiences. 💳
 
  Project Overview
@@ -18,7 +18,7 @@ This application simulates a sandwich shop POS system. Customers can:
 🎥 App Screens (Console Output)
 
 Home Screen
-![img_2.png](img_2.png)
+![img_2.png](Assets/img_2.png)
 
 🥪 Welcome to DELI-cious POS 🧾
 
@@ -31,7 +31,7 @@ Home Screen
  
 Order Flow
 
-![img_3.png](img_3.png)
+![img_3.png](Assets/img_3.png)
 
 
 
@@ -45,7 +45,7 @@ Order Flow
 
 
 Checkout
-![img_4.png](img_4.png)
+![img_4.png](Assets/img_4.png)
 ```
 💳 Checkout Summary 💳
 🧾 Subtotal: $10.00
@@ -58,18 +58,18 @@ Checkout
 
 A method under Utils/EmailManager- sends a receipt via email using the Mailtrap sandbox inbox. It connects using SMTP and dynamically formats the receipt content.
 
-![img_5.png](img_5.png)
-![img_6.png](img_6.png)
+![img_5.png](Assets/img_5.png)
+![img_6.png](Assets/img_6.png)
 
 csv file 
-![img_7.png](img_7.png)
+![img_7.png](Assets/img_7.png)
 
  📊 UML & ER Diagrams created using PlantUML
 
 ### UML Class and User flow Diagram (Simplified)
-![img_8.png](img_8.png)
+![img_8.png](Assets/img_8.png)
 
-![img_10.png](img_10.png)
+![img_10.png](Assets/img_10.png)
 - **Order**
     - List<Sandwich>
     - List<Drink>
