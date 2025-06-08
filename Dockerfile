@@ -4,8 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-# Compile all Java files, including packages like gui, models, utils
-RUN mkdir -p out && javac $(find src -name "*.java") -d out
+# Compile ALL Java files recursively using Java's native wildcard
+RUN mkdir -p out && javac -d out $(find src -type f -name "*.java" || echo src/**/*.java)
 
-# Since MainApp is NOT in a package, just call it directly
 CMD ["java", "-cp", "out", "MainApp"]
