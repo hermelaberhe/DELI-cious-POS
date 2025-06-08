@@ -21,7 +21,7 @@ public class OrderScreen {
                     new AddDrinkScreen(order).show();
                     break;
                 case "3":
-                    new src.gui.AddChipsScreen(order).show();
+                    new gui.AddChipsScreen(order).show();
                     break;
                 case "4":
                     new CheckoutScreen(order).show();
