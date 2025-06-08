@@ -8,7 +8,6 @@ RUN mkdir -p out && javac -d out \
   src/MainApp.java \
   src/gui/*.java \
   src/models/enums/*.java \
-  src/models/models/*.java \
   src/models/signature/*.java \
   src/utils/utils/*.java
 

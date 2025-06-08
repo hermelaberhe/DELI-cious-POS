@@ -2,7 +2,7 @@ package gui;
 
 import models.*;
 import utils.DatabaseManager;
-import src.utils.ReceiptManager;
+import utils.ReceiptManager;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;

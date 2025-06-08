@@ -1,4 +1,4 @@
-package src.utils;
+package utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class ReceiptManager {
     }
 
     public static void emailReceipt(String toEmail, String content) {
-        src.utils.EmailSender.sendEmail(toEmail, "Your DELI-cious Receipt 🧾", content);
+        EmailSender.sendEmail(toEmail, "Your DELI-cious Receipt 🧾", content);
     }
 
 }
