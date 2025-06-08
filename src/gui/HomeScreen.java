@@ -4,9 +4,9 @@ package gui;
 import java.util.Scanner;
 
 public class HomeScreen {
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public void show() {
+    public static void show() {
         while (true) {
             render();
             String input = input();
@@ -34,7 +34,7 @@ public class HomeScreen {
         }
     }
 
-    private void render() {
+    private static void render() {
         System.out.println("\n===============================");
         System.out.println("  🥪 Welcome to DELI-cious POS 🧾");
         System.out.println("===============================\n");
@@ -46,7 +46,7 @@ public class HomeScreen {
         System.out.print("👉 Enter your choice: ");
     }
 
-    private String input() {
+    private static String input() {
         return scanner.nextLine().trim();
     }
 }
