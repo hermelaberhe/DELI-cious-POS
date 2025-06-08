@@ -2,11 +2,10 @@ FROM openjdk:21
 
 WORKDIR /app
 
-# Copy everything from your repo
 COPY . .
 
-# Compile your Java file
-RUN mkdir -p out && javac src/MainApp.java -d out
+# Compile all Java files, including packages like gui, models, utils
+RUN mkdir -p out && javac $(find src -name "*.java") -d out
 
-# Run the app
+# Since MainApp is NOT in a package, just call it directly
 CMD ["java", "-cp", "out", "MainApp"]
