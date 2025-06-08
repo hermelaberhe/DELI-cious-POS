@@ -2,8 +2,11 @@ FROM openjdk:21
 
 WORKDIR /app
 
-COPY src/ ./src
+# Copy everything from your repo
+COPY . .
 
-RUN mkdir out && javac src/MainApp.java -d out
+# Compile your Java file
+RUN mkdir -p out && javac src/MainApp.java -d out
 
+# Run the app
 CMD ["java", "-cp", "out", "MainApp"]
