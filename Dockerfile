@@ -4,7 +4,12 @@ WORKDIR /app
 
 COPY . .
 
-# Compile ALL Java files recursively using Java's native wildcard
-RUN mkdir -p out && javac -d out $(find src -type f -name "*.java" || echo src/**/*.java)
+RUN mkdir -p out && javac -d out \
+  src/MainApp.java \
+  src/gui/*.java \
+  src/models/enums/*.java \
+  src/models/models/*.java \
+  src/models/signature/*.java \
+  src/utils/utils/*.java
 
 CMD ["java", "-cp", "out", "MainApp"]
