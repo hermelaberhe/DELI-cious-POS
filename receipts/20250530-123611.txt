@@ -1,0 +1,12 @@
+{
+  "sandwiches" : [ ],
+  "drinks" : [ {
+    "size" : "SMALL",
+    "price" : 1.5
+  } ],
+  "chips" : [ ],
+  "paymentMethod" : "Cash",
+  "timestamp" : "20250530-123611",
+  "totalPrice" : 2.0,
+  "empty" : false
+}

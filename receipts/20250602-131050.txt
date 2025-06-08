@@ -1,0 +1,15 @@
+🧾 Order Summary:
+
+🥪 Sandwiches:
+ -    > STEAK
+   > STEAK (extra)
+   > SALAMI
+   > PROVOLONE
+   > PROVOLONE (extra)
+   > PEPPERS
+   > MAYO
+
+
+Subtotal: $13.60
+Tax: $1.37
+Total: $14.97

@@ -1,0 +1,13 @@
+🧾 Order Summary:
+
+🥪 Sandwiches:
+ -    > BACON
+   > CHEDDAR
+   > LETTUCE
+   > TOMATOES
+   > RANCH
+
+
+Subtotal: $10.00
+Tax: $1.01
+Total: $11.01

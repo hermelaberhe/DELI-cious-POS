@@ -1,0 +1,15 @@
+{
+  "sandwiches" : [ {
+    "breadType" : "WHITE",
+    "size" : "MEDIUM_8",
+    "toasted" : true,
+    "name" : "Custom Sandwich",
+    "toppings" : [ ]
+  } ],
+  "drinks" : [ ],
+  "chips" : [ ],
+  "paymentMethod" : "Cash",
+  "timestamp" : "20250530-123952",
+  "totalPrice" : 7.0,
+  "empty" : false
+}

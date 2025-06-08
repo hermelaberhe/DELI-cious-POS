@@ -1,0 +1,18 @@
+🧾 Order Summary:
+
+🥪 Sandwiches:
+ -    > HAM
+   > HAM (extra)
+   > SALAMI
+   > SALAMI (extra)
+   > CHICKEN
+   > AMERICAN
+   > AMERICAN (extra)
+   > ONIONS
+   > LETTUCE
+   > MUSTARD
+
+
+Subtotal: $9.05
+Tax: $0.91
+Total: $9.96

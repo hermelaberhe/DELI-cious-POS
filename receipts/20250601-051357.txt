@@ -1,0 +1,7 @@
+🧾 Order Summary:
+   > SALAMI
+   > SALAMI (extra)
+
+Subtotal: $22.50
+Tax: $2.27
+Total: $24.77

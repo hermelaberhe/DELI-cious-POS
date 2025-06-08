@@ -1,0 +1,11 @@
+🧾 Order Summary:
+   > HAM
+   > HAM (extra)
+   > ROAST_BEEF
+   > LETTUCE
+   > PEPPERS
+   > MAYO
+
+Subtotal: $6.50
+Tax: $0.66
+Total: $7.16

@@ -1,0 +1,19 @@
+{
+  "sandwiches" : [ {
+    "breadType" : "WHEAT",
+    "size" : "MEDIUM_8",
+    "toasted" : true,
+    "name" : "Custom Sandwich",
+    "toppings" : [ {
+      "name" : "pepperoni",
+      "type" : "MEAT",
+      "extra" : true
+    } ]
+  } ],
+  "drinks" : [ ],
+  "chips" : [ ],
+  "paymentMethod" : "Cash",
+  "timestamp" : "20250530-122614",
+  "totalPrice" : 8.5,
+  "empty" : false
+}
