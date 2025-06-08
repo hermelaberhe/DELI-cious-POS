@@ -8,6 +8,9 @@ import java.util.*;
 
 public class SalesSummary {
 
+    public static void printSummary() {
+    }
+
     public void show() {
         File folder = new File("receipts/");
         if (!folder.exists() || folder.listFiles() == null) {

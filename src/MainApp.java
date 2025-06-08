@@ -1,9 +1,14 @@
 import gui.HomeScreen;
 import utils.DatabaseManager;
 
+import gui.SalesSummary;
+
 public class MainApp {
     public static void main(String[] args) {
-        DatabaseManager.initialize();  // 💽 Set up the database and tables
-        new HomeScreen().show();       // 🏠 Launch the CLI POS system
+        System.out.println("===============================");
+        System.out.println("🥪 DELI-cious POS – Report Mode");
+        System.out.println("===============================");
+        SalesSummary.printSummary(); // 👈 auto runs summary
     }
 }
+
